@@ -6,8 +6,7 @@ en:
         disable_account_confirmation: Don't ask users to choose between logging in
           or proceeding as guests.
         enable_cancellation: Allow users to cancel their registration
-        enable_guest_registration: Allow guest users (no signed in) to register to
-          meetings
+        enable_guest_registration: Allow unregistered users to join meetings
         enable_registration_confirmation: Ask users to confirm their registration
   decidim:
     components:
@@ -16,13 +15,13 @@ en:
     guest_meeting_registration:
       admin:
         guest_meeting_session:
-          disable_account_confirmation_html: Enabling this setting  will remove the
-            pop-up that prompts users to select whether they have an account or want
-            to proceed as a guest.
+          disable_account_confirmation_html: Enabling this setting will hide the account
+            selection pop-up for meeting registration
           enable_cancellation_help_html: Allow users to cancel their registration
-          enable_guest_registration_help_html: They will be asked for a name and email
-          enable_registration_confirmation_help_html: An email will be sent to them
-            asking to confirm the registration.
+          enable_guest_registration_help_html: Unregistered users will be asked for
+            a name and email
+          enable_registration_confirmation_help_html: Send email verification to confirm
+            meeting registration
         guest_meeting_settings:
           edit:
             title: Meeting Guest Registration
@@ -34,8 +33,7 @@ en:
         send_cancellation_request:
           action: Cancel my registration
           greeting: Welcome %{recipient}!
-          instruction: 'You can cancel meeting attendance at anytime accessing the
-            link below:'
+          instruction: 'Cancel your meeting registration using the link below:'
           subject: Cancellation link for %{meeting_title}
         send_confirmation:
           action: Confirm my registration
@@ -52,14 +50,15 @@ en:
           leave_title: Cancel your registration
         description_html: If you have an account or want to fully participate in this
           meeting choose "%{i_have_account}". Otherwise, you can select "%{login_as_guest}"
-        i_have_account: Register with account
-        i_have_account_html: Register with<br /> account
+        i_have_account: Register with an account
+        i_have_account_html: Register with an<br /> account
         join: Join the meeting
         login_as_guest: Register as guest
-        login_as_guest_html: Register as<br /> guest
-        title: Select your registration method
+        login_as_guest_html: Register as a<br /> guest
+        title: Choose your registration method
       menu:
-        guest_meeting_registration_settings: Guest meeting settings
+        guest_meeting_registration_settings: Unregistered user meeting registration
+          settings
     meetings:
       registrations:
         create:
