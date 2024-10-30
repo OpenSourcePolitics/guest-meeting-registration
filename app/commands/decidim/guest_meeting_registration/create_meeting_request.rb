@@ -19,11 +19,11 @@ module Decidim
 
         if enable_registration_confirmation?
           send_email_confirmation!
+          broadcast(:confirmation_required)
         else
           Decidim::GuestMeetingRegistration::CreateRegistration.call(registration_request, meeting)
+          broadcast(:ok)
         end
-
-        broadcast(:ok)
       end
 
       private

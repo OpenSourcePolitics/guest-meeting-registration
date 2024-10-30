@@ -60,3 +60,8 @@ en:
         title: Select your registration method
       menu:
         guest_meeting_registration_settings: Guest meeting settings
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Complete your registration - check your email to
+            confirm your participation and reserve your seat

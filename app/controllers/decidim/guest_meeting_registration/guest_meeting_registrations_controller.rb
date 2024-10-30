@@ -15,6 +15,11 @@ module Decidim
         @form = form_object.from_params(params, session_token: session_token, meeting: meeting)
 
         Decidim::GuestMeetingRegistration::CreateMeetingRequest.call(meeting, @form) do
+          on(:confirmation_required) do
+            flash[:notice] = I18n.t("registrations.create.confirmation_required", scope: "decidim.meetings")
+            redirect_to after_answer_path
+          end
+
           on(:ok) do
             flash[:notice] = I18n.t("registrations.create.success", scope: "decidim.meetings")
             redirect_to after_answer_path
