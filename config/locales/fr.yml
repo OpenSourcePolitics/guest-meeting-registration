@@ -1,5 +1,12 @@
 ---
 fr:
+  activemodel:
+    attributes:
+      meeting:
+        disable_account_confirmation: Ne plus imposer aux utilisateurs de choisir entre connexion et mode invité pour s'inscrire à la rencontre
+        enable_cancellation: Permettre l'annulation de l'inscription
+        enable_guest_registration: Autoriser l'inscription sans compte utilisateur
+        enable_registration_confirmation: Demander une confirmation d'inscription par mail
   decidim:
     components:
       guest_meeting_registration:
@@ -8,9 +15,9 @@ fr:
       admin:
         guest_meeting_session:
           disable_account_confirmation_html: Désactiver la popup demandant aux gens de choisir s'ils ont ou non un compte
-          enable_cancellation_help_html: Permettre aux utilisateurs d'annuler leur inscription
-          enable_guest_registration_help_html: Autoriser les utilisateurs non connectés à s'inscrire aux réunions
-          enable_registration_confirmation_help_html: Rentre la confirmation de l'inscription à l'évènement obligatoire
+          enable_cancellation_help_html: Permettre l'annulation de l'inscription
+          enable_guest_registration_help_html: Un nom et une adresse e-mail leur seront demandés
+          enable_registration_confirmation_help_html: Un e-mail leur sera envoyé pour confirmer leur inscription
         guest_meeting_settings:
           edit:
             title: Inscription à la rencontre sans connexion
@@ -20,10 +27,10 @@ fr:
         success: Vous avez annulé votre inscription à la réunion
       guest_meeting_registration_mailer:
         send_cancellation_request:
-          action: Annuler mon inscription
+          action: Me désinscrire
           greeting: Bienvenue %{recipient} !
-          instruction: 'Vous pouvez à tout moment annuler votre participation à la réunion en utilisant le lien ci-dessous :'
-          subject: Lien d'annulation pour %{meeting_title}
+          instruction: 'Vous pouvez annuler votre participation à tout moment via le lien suivant :'
+          subject: Lien de désinscription pour %{meeting_title}
         send_confirmation:
           action: Confirmer mon inscription
           greeting: Bienvenue %{recipient} !
@@ -34,10 +41,18 @@ fr:
         cancel_guest_confirm:
           leave: Annuler votre inscription
           leave_confirmation: Êtes-vous sûr de vouloir annuler votre inscription à cette rencontre ?
+          leave_html: Annuler l'inscription
+          leave_title: Annuler votre inscription
         description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, vous pouvez <strong>%{login_as_guest}</strong>
-        i_have_account: S'inscrire avec un compte Decidim
+        i_have_account: s'inscrire avec un compte
+        i_have_account_html: s'inscrire avec un compte
         join: S'inscrire à la rencontre
-        login_as_guest: S'inscrire en tant qu'invité
+        login_as_guest: s'inscrire en tant qu'invité
+        login_as_guest_html: s'inscrire sans compte
         title: Veuillez choisir un mode d'inscription
       menu:
-        guest_meeting_registration_settings: Paramètres des inscriptions des invités
+        guest_meeting_registration_settings: Paramètres des inscriptions sans compte
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Finalisez votre inscription - vérifiez votre email pour confirmer votre participation et réserver votre place

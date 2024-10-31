@@ -1,5 +1,12 @@
 ---
-de:
+de-AT:
+  activemodel:
+    attributes:
+      meeting:
+        disable_account_confirmation: Don't ask users to choose between logging in or proceeding as guests.
+        enable_cancellation: Allow users to cancel their registration
+        enable_guest_registration: Allow guest users (no signed in) to register to meetings
+        enable_registration_confirmation: Ask users to confirm their registration
   decidim:
     components:
       guest_meeting_registration:
@@ -8,7 +15,7 @@ de:
       admin:
         guest_meeting_session:
           disable_account_confirmation_html: Pop-up deaktivieren, welches Teilnehmende fragt, ob sie sich mit oder ohne bestehendem Konto anmelden möchten
-          enable_cancellation_help_html: Nutzenden erlauben, die Teilnahme an der Veranstaltung abzusagen
+          enable_cancellation_help_html: Allow users to cancel their registration
           enable_guest_registration_help_html: Anmeldungen für Veranstaltungen ohne Plattformregistrierung erlauben
           enable_registration_confirmation_help_html: Teilnehmende zwingen, Ihre Anmeldung an einer Veranstaltung zu bestätigen
         guest_meeting_settings:
@@ -34,10 +41,18 @@ de:
         cancel_guest_confirm:
           leave: Anmeldung stornieren
           leave_confirmation: Sind Sie sicher dass Sie sich von dieser Veranstaltung abmelden möchten?
+          leave_html: Cancel registration
+          leave_title: Anmeldung stornieren
         description_html: Wenn Sie bereits ein Konto haben oder weiter zu dieser Veranstaltung beitragen möchten, wählen Sie die <strong>%{i_have_account}</strong> Option. Ansonsten können Sie <strong>%{login_as_guest}</strong>
         i_have_account: Mit Konto anmelden
+        i_have_account_html: Register with<br /> account
         join: Zur Veranstaltung anmelden
         login_as_guest: Als Gast anmelden
+        login_as_guest_html: Register as<br /> guest
         title: Wie möchten Sie sich anmelden?
       menu:
         guest_meeting_registration_settings: Gastanmeldungseinstellungen
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Complete your registration - check your email to confirm your participation and reserve your seat

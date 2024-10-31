@@ -1,5 +1,12 @@
 ---
 ro:
+  activemodel:
+    attributes:
+      meeting:
+        disable_account_confirmation: Don't ask users to choose between logging in or proceeding as guests.
+        enable_cancellation: Allow users to cancel their registration
+        enable_guest_registration: Allow guest users (no signed in) to register to meetings
+        enable_registration_confirmation: Ask users to confirm their registration
   decidim:
     components:
       guest_meeting_registration:
@@ -8,7 +15,7 @@ ro:
       admin:
         guest_meeting_session:
           disable_account_confirmation_html: Disable pop-up asking people to choose whether they have or not an account
-          enable_cancellation_help_html: Permite utilizatorilor să-și anuleze participarea
+          enable_cancellation_help_html: Allow users to cancel their registration
           enable_guest_registration_help_html: Permiteți utilizatorilor invitați să se înregistreze la ședințe
           enable_registration_confirmation_help_html: Forțați utilizatorii să confirme participarea lor la ședințe
         guest_meeting_settings:
@@ -34,10 +41,18 @@ ro:
         cancel_guest_confirm:
           leave: Anulați participarea mea
           leave_confirmation: Sigur doriți să anulați participarea la această întâlnire?
+          leave_html: Cancel registration
+          leave_title: Anulați participarea mea
         description_html: Dacă aveți un cont sau doriți să contribuiți în continuare la această întâlnire, alegeți opțiunea <strong>%{i_have_account}</strong>. Altfel puteți alege <strong>%{login_as_guest}</strong>
         i_have_account: Participați folosind un cont
+        i_have_account_html: Register with<br /> account
         join: Participați la ședință
         login_as_guest: Participați ca vizitator
+        login_as_guest_html: Register as<br /> guest
         title: Vă rugăm să alegeți o modalitate de a participa
       menu:
         guest_meeting_registration_settings: Setările ședințelor anonime
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Complete your registration - check your email to confirm your participation and reserve your seat
