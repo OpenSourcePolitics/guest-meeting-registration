@@ -1,12 +1,12 @@
 ---
-de-AT:
+de:
   activemodel:
     attributes:
       meeting:
-        disable_account_confirmation: Don't ask users to choose between logging in or proceeding as guests.
-        enable_cancellation: Allow users to cancel their registration
-        enable_guest_registration: Allow guest users (no signed in) to register to meetings
-        enable_registration_confirmation: Ask users to confirm their registration
+        disable_account_confirmation: Teilnehmende nicht fragen, ob sie sich anmelden möchten oder unangemeldet fortfahren möchten.
+        enable_cancellation: Nutzenden erlauben, die Teilnahme an der Veranstaltung abzusagen
+        enable_guest_registration: Anmeldungen für Veranstaltungen ohne Plattformregistrierung erlauben
+        enable_registration_confirmation: Teilnehmende bitten, Ihre Anmeldung an einer Veranstaltung zu bestätigen
   decidim:
     components:
       guest_meeting_registration:
@@ -14,45 +14,45 @@ de-AT:
     guest_meeting_registration:
       admin:
         guest_meeting_session:
-          disable_account_confirmation_html: Pop-up deaktivieren, welches Teilnehmende fragt, ob sie sich mit oder ohne bestehendem Konto anmelden möchten
-          enable_cancellation_help_html: Allow users to cancel their registration
-          enable_guest_registration_help_html: Anmeldungen für Veranstaltungen ohne Plattformregistrierung erlauben
-          enable_registration_confirmation_help_html: Teilnehmende zwingen, Ihre Anmeldung an einer Veranstaltung zu bestätigen
+          disable_account_confirmation_html: Wenn Sie diese Einstellung aktivieren, wird das Pop-Up entfernt, das Nutzende auffordert, auszuwählen, ob sie ein Konto haben oder als Gast fortfahren möchten.
+          enable_cancellation_help_html: Nutzenden erlauben, die Teilnahme an der Veranstaltung abzusagen
+          enable_guest_registration_help_html: Sie werden nach einem Namen und einer E-Mail gefragt
+          enable_registration_confirmation_help_html: Sie erhalten eine E-Mail mit der Bitte, die Registrierung zu bestätigen.
         guest_meeting_settings:
           edit:
             title: Gastanmeldungen für Veranstaltungen
             update: Aktualisieren
       cancellation:
-        error: Bei der Abmeldung von der Veranstaltung ist ein Problem aufgetreten
+        error: Es gab ein Problem bei der Abmeldung von der Veranstaltung
         success: Sie haben sich erfolgreich von der Veranstaltung abgemeldet
       guest_meeting_registration_mailer:
         send_cancellation_request:
-          action: Abmelden
-          greeting: Willkommen %{recipient}!
-          instruction: 'Sie können die Teilnahme jederzeit absagen, indem Sie auf diesen Link klicken:'
+          action: Von der Veranstaltung abmelden
+          greeting: Herzlich willkommen %{recipient}!
+          instruction: 'Sie können sich von der Veranstaltung jederzeit abmelden, indem Sie auf diesen Link klicken:'
           subject: Abmeldungslink für %{meeting_title}
         send_confirmation:
           action: Anmeldung bestätigen
-          greeting: Willkommen %{recipient}!
+          greeting: Herzlich willkommen %{recipient}!
           instruction: 'Bitte bestätigen Sie Ihre E-Mail-Adresse über den folgenden Link:'
           subject: Bestätigen Sie Ihre E-Mail für die Teilnahme an %{meeting_title}
       join_meeting_button:
         cancel: Abbrechen
         cancel_guest_confirm:
-          leave: Anmeldung stornieren
-          leave_confirmation: Sind Sie sicher dass Sie sich von dieser Veranstaltung abmelden möchten?
-          leave_html: Cancel registration
-          leave_title: Anmeldung stornieren
-        description_html: Wenn Sie bereits ein Konto haben oder weiter zu dieser Veranstaltung beitragen möchten, wählen Sie die <strong>%{i_have_account}</strong> Option. Ansonsten können Sie <strong>%{login_as_guest}</strong>
-        i_have_account: Mit Konto anmelden
-        i_have_account_html: Register with<br /> account
+          leave: Von der Veranstaltung abmelden
+          leave_confirmation: Sind Sie sicher, dass Sie sich von dieser Veranstaltung abmelden möchten?
+          leave_html: Abmelden
+          leave_title: Von der Veranstaltung abmelden
+        description_html: Wenn Sie ein Konto haben oder an diesem Meeting vollständig teilnehmen möchten, wählen Sie bitte "%{i_have_account}". Andernfalls können Sie "%{login_as_guest} " auswählen
+        i_have_account: Mit Konto registrieren
+        i_have_account_html: Anmelden mit<br /> bestehendem Konto
         join: Zur Veranstaltung anmelden
         login_as_guest: Als Gast anmelden
-        login_as_guest_html: Register as<br /> guest
-        title: Wie möchten Sie sich anmelden?
+        login_as_guest_html: Anmelden als <br /> Gast
+        title: Wählen Sie Ihre Anmeldemethode
       menu:
-        guest_meeting_registration_settings: Gastanmeldungseinstellungen
+        guest_meeting_registration_settings: Einstellungen für Gastanmeldungen
     meetings:
       registrations:
         create:
-          confirmation_required: Complete your registration - check your email to confirm your participation and reserve your seat
+          confirmation_required: Vervollständigen Sie Ihre Registrierung - überprüfen Sie Ihre E-Mail, um Ihre Teilnahme zu bestätigen und Ihren Platz zu reservieren
