@@ -24,7 +24,7 @@ module Decidim
       alias meeting model
 
       def button_classes
-        "button expanded button--sc"
+        "button button__xl button__secondary w-full"
       end
 
       def big_button?
@@ -35,6 +35,14 @@ module Decidim
         return I18n.t("join", scope: "decidim.guest_meeting_registration.join_meeting_button") if has_available_slots?
 
         I18n.t("no_slots_available", scope: "decidim.meetings.meetings.show")
+      end
+
+      def i18n_confirm_text
+        I18n.t("confirm", scope: "decidim.meetings.meetings.registration_confirm")
+      end
+
+      def i18n_cancel_text
+        I18n.t("cancel", scope: "decidim.meetings.meetings.registration_confirm")
       end
 
       def shows_remaining_slots?

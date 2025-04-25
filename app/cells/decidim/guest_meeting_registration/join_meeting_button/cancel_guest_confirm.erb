@@ -1,15 +1,20 @@
-<div class="reveal" data-reveal id="guest-meeting-cancelation-confirm-<%= model.id %>">
-  <div class="reveal__header">
-    <h3 id="flagUserModal-label" class="reveal__title"><%= t("leave_title", scope: "decidim.guest_meeting_registration.join_meeting_button.cancel_guest_confirm")  %></h3>
-    <button class="close-button" data-close aria-label="<%= t("cancel", scope: "decidim.guest_meeting_registration.join_meeting_button") %>" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="columns row">
-    <p><%= t("leave_confirmation", scope: "decidim.guest_meeting_registration.join_meeting_button.cancel_guest_confirm") %></p>
-
-    <div class="columns medium-7 float-left padding-left-0">
-      <%= link_to(t("leave_html", scope: "decidim.guest_meeting_registration.join_meeting_button.cancel_guest_confirm"), cancellation_url, class: button_classes.gsub(/expanded/, "") ) %>
+<%= decidim_modal id: "guest-meeting-cancellation-confirm-#{model.id}", class: "meeting__registration-modal" do %>
+  <%= decidim_form_for(meeting, url: cancellation_url, method: :get) do |form| %>
+    <div data-dialog-container>
+      <%= icon "login-circle-line" %>
+      <h2 id="dialog-title-meeting-cancellation-confirm-<%= model.id %>" data-dialog-title><%= t("leave_title", scope: "decidim.guest_meeting_registration.join_meeting_button.cancel_guest_confirm")  %></h2>
+      <div>
+        <p><%= t("leave_confirmation", scope: "decidim.guest_meeting_registration.join_meeting_button.cancel_guest_confirm") %></p>
+      </div>
     </div>
-  </div>
-</div>
+    <div data-dialog-actions>
+      <button type="button" class="button button__sm md:button__lg button__transparent-secondary" data-dialog-close="guest-meeting-cancellation-confirm-<%= model.id %>">
+        <span><%= i18n_cancel_text %></span>
+      </button>
+      <button type="submit" class="button button__sm md:button__lg button__secondary">
+        <span><%= i18n_confirm_text %></span>
+        <%= icon "arrow-right-line" %>
+      </button>
+    </div>
+  <% end %>
+<% end %>

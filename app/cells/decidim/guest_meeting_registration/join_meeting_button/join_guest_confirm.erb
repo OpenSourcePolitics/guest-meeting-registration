@@ -1,30 +1,32 @@
-<div class="reveal" data-reveal id="guest-meeting-registration-join-<%= model.id %>">
-  <div class="reveal__header">
-    <h3 id="flagUserModal-label" class="reveal__title"><%= t("title", scope: "decidim.guest_meeting_registration.join_meeting_button") %></h3>
-    <button class="close-button" data-close aria-label="<%= t("cancel", scope: "decidim.guest_meeting_registration.join_meeting_button") %>" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <div class="columns row">
-    <p><%= t("description_html",
-             scope: "decidim.guest_meeting_registration.join_meeting_button",
-             login_as_guest: t("login_as_guest", scope: "decidim.guest_meeting_registration.join_meeting_button"),
-             i_have_account: t("i_have_account", scope: "decidim.guest_meeting_registration.join_meeting_button")
-           ) %></p>
-
-    <div class="columns medium-5">
-      <%= action_authorized_button_to(
-            :join,
-            t("i_have_account_html", scope: "decidim.guest_meeting_registration.join_meeting_button"),
-            "#",
-            class: button_classes,
-            disabled: !model.has_available_slots?,
-            data: { open: "loginModal" }
-          ) %>
+<%= decidim_modal id: "guest-meeting-registration-join-#{model.id}", class: "meeting__registration-modal" do %>
+  <%#= decidim_form_for(meeting, url: meeting_registration_path(model), method: :post) do |form| %>
+    <div class="flex flex-col">
+      <div class="flex justify-start items-center mb-12">
+        <%= icon "login-circle-line" %>
+        <h2 class="ml-4" id="dialog-title-guest-meeting-registration-join-confirm-<%= model.id %>" data-dialog-title><%= t("title", scope: "decidim.guest_meeting_registration.join_meeting_button") %></h2>
+      </div>
+      <div>
+        <p><%= t("description_html",
+                 scope: "decidim.guest_meeting_registration.join_meeting_button",
+                 login_as_guest: t("login_as_guest", scope: "decidim.guest_meeting_registration.join_meeting_button"),
+                 i_have_account: t("i_have_account", scope: "decidim.guest_meeting_registration.join_meeting_button")
+               ) %></p>
+      </div>
+      <div class="flex items-center justify-around my-12">
+        <div class="columns medium-5">
+          <%= action_authorized_button_to(
+                :join,
+                t("i_have_account_html", scope: "decidim.guest_meeting_registration.join_meeting_button"),
+                "#",
+                class: "button button__sm md:button__lg button__secondary",
+                disabled: !model.has_available_slots?,
+                data: { open: "loginModal" }
+              ) %>
+        </div>
+        <div class="columns medium-5">
+          <%= link_to(t("login_as_guest_html", scope: "decidim.guest_meeting_registration.join_meeting_button"), guest_registration_path, class: "button button__sm md:button__lg button__secondary", disabled: !has_available_slots? ) %>
+        </div>
+      </div>
     </div>
-    <div class="columns medium-5">
-      <%= link_to(t("login_as_guest_html", scope: "decidim.guest_meeting_registration.join_meeting_button"), guest_registration_path, class: button_classes, disabled: !has_available_slots? ) %>
-    </div>
-  </div>
-</div>
+  <%# end %>
+<% end %>
