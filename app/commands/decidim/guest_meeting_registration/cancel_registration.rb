@@ -27,7 +27,7 @@ module Decidim
       delegate :user, to: :registration_request, allow_nil: true
 
       def destroy_follow
-        Decidim::DeleteFollow.call(follow_form, user)
+        Decidim::DeleteFollow.call(follow_form)
       end
 
       def follow_form

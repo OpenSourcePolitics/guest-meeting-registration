@@ -11,7 +11,15 @@ module Decidim
       def initialize(meeting, user, registration_form)
         @meeting = meeting
         @user = user
-        @registration_form = registration_form
+        @form = registration_form
+      end
+
+      # Creates a meeting registration if the meeting has registrations enabled
+      # and there are available slots.
+      #
+      # Broadcasts :ok if successful, :invalid otherwise.
+      def current_user
+        @user
       end
 
       private
@@ -19,7 +27,7 @@ module Decidim
       def increment_score; end
 
       def questionnaire?
-        meeting.registration_form_enabled? && registration_form.model_name == "questionnaire"
+        meeting.registration_form_enabled? && @form.model_name == "questionnaire"
       end
     end
   end
