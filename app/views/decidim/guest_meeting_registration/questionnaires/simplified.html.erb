@@ -5,84 +5,85 @@
 
 <% columns = 6 %>
 
-<div class="row columns">
-  <h2 class="section-heading"><%= translated_attribute meeting.title %></h2>
-</div>
+<main class="layout-1col cols-6">
+  <div class="flex justify-center">
+    <h2 class="title-decorator mt-6 mb-12"><%= translated_attribute meeting.title %></h2>
+  </div>
 
-<div class="row">
-  <div class="columns large-<%= columns %> medium-centered">
-    <div class="card">
-      <div class="card__content">
-        <% if meeting.registrations_enabled? && meeting.has_available_slots? %>
-            <% if  visitor_already_answered? %>
-              <div class="section">
-                <div class="callout success">
-                  <h3 class="heading5"><%= t("questionnaire_answered.title", scope: "decidim.forms.questionnaires.show") %></h3>
-                  <p><%= t("questionnaire_answered.body", scope: "decidim.forms.questionnaires.show") %></p>
+  <div class="row">
+    <div class="columns large-<%= columns %> medium-centered">
+      <div class="card">
+        <div class="card__content">
+          <% if meeting.registrations_enabled? && meeting.has_available_slots? %>
+              <% if  visitor_already_answered? %>
+                <div class="section">
+                  <div class="callout success">
+                    <h3 class="heading5"><%= t("questionnaire_answered.title", scope: "decidim.forms.questionnaires.show") %></h3>
+                    <p><%= t("questionnaire_answered.body", scope: "decidim.forms.questionnaires.show") %></p>
+                  </div>
                 </div>
-              </div>
-            <% else %>
-              <div class="answer-questionnaire">
-                <noscript>
-                  <div class="section">
-                    <div class="callout warning">
-                      <h3 class="heading5"><%= t("questionnaire_js_disabled.title", scope: "decidim.forms.questionnaires.show") %></h3>
-                      <p><%= t("questionnaire_js_disabled.body", scope: "decidim.forms.questionnaires.show") %></p>
+              <% else %>
+                <div class="answer-questionnaire">
+                  <noscript>
+                    <div class="section">
+                      <div class="callout warning">
+                        <h3 class="heading5"><%= t("questionnaire_js_disabled.title", scope: "decidim.forms.questionnaires.show") %></h3>
+                        <p><%= t("questionnaire_js_disabled.body", scope: "decidim.forms.questionnaires.show") %></p>
+                      </div>
                     </div>
-                  </div>
-                </noscript>
-                <% unless current_participatory_space.can_participate?(current_user) %>
-                  <div class="section">
-                    <div class="callout alert">
-                      <h3 class="heading5"><%= t("questionnaire_for_private_users.title", scope: "decidim.forms.questionnaires.show") %></h3>
-                      <p><%= t("questionnaire_for_private_users.body", scope: "decidim.forms.questionnaires.show") %></p>
+                  </noscript>
+                  <% unless current_participatory_space.can_participate?(current_user) %>
+                    <div class="section">
+                      <div class="callout alert">
+                        <h3 class="heading5"><%= t("questionnaire_for_private_users.title", scope: "decidim.forms.questionnaires.show") %></h3>
+                        <p><%= t("questionnaire_for_private_users.body", scope: "decidim.forms.questionnaires.show") %></p>
+                      </div>
                     </div>
-                  </div>
-                <% end %>
+                  <% end %>
 
-                <%= decidim_form_for(@form, url: update_url, method: :post, html: { multipart: true, class: "form answer-questionnaire" }, data: { "safe-path" => form_path }) do |form| %>
-                  <%= form_required_explanation %>
-                  <%= invisible_captcha %>
-                    <div id="step-0" class="questionnaire-step" data-toggler=".hide">
-                        <div class="row column">
-                          <%= form.email_field :email %>
-                          <%= form.text_field :name %>
-                        </div>
+                  <%= decidim_form_for(@form, url: update_url, method: :post, html: { multipart: true, class: "form answer-questionnaire" }, data: { "safe-path" => form_path }) do |form| %>
+                    <%= form_required_explanation %>
+                    <%= invisible_captcha %>
+                      <div id="step-0" class="questionnaire-step flex flex-col mt-4 mb-6" data-toggler=".hide">
+                          <div class="row column flex justify-between mb-6">
+                            <%= form.email_field :email %>
+                            <%= form.text_field :name %>
+                          </div>
 
-                        <% if show_public_participation? %>
-                          <div class="row column public-participation">
-                            <%= form.check_box :public_participation,
-                                               label: t("public_participation", scope: "decidim.shared.public_participation"),
+                          <% if show_public_participation? %>
+                            <div class="row column public-participation mb-2">
+                              <%= form.check_box :public_participation,
+                                                 label: t("public_participation", scope: "decidim.shared.public_participation"),
+                                                 include_hidden: false %>
+                            </div>
+                          <% end %>
+                          <div class="row column tos-agreement mb-6">
+                            <%= form.check_box :tos_agreement, label: t("tos_agreement", scope: "decidim.forms.questionnaires.show"),
+                                               id: "questionnaire_tos_agreement",
+                                               label_options: { for:  "questionnaire_tos_agreement" },
                                                include_hidden: false %>
-                          </div>
-                        <% end %>
-                        <div class="row column tos-agreement">
-                          <%= form.check_box :tos_agreement, label: t("tos_agreement", scope: "decidim.forms.questionnaires.show"),
-                                             id: "questionnaire_tos_agreement",
-                                             label_options: { for:  "questionnaire_tos_agreement" },
-                                             include_hidden: false %>
-                          <div class="help-text">
+                            <div class="help-text">
 
+                            </div>
                           </div>
-                        </div>
 
-                      <%= cell(
-                            "decidim/forms/step_navigation",
-                            0,
-                            total_steps: 1,
-                            button_disabled: !current_participatory_space.can_participate?(current_user),
-                            form: form
-                          ) %>
-                    </div>
-                <% end %>
-              </div>
-            <% end %>
-        <% end %>
+                        <%= cell(
+                              "decidim/forms/step_navigation",
+                              0,
+                              total_steps: 1,
+                              button_disabled: !current_participatory_space.can_participate?(current_user),
+                              form: form
+                            ) %>
+                      </div>
+                  <% end %>
+                </div>
+              <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
+</main>
 <% content_for :js_content do %>
-  <%= javascript_pack_tag "decidim_forms" %>
+  <%= append_javascript_pack_tag "decidim_forms" %>
 <% end %>
