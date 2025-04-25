@@ -1,0 +1,2 @@
+<!-- replace "erb[loud]:contains('decidim/meetings/join_meeting_button')" -->
+<%= cell "decidim/guest_meeting_registration/join_meeting_button", meeting, big_button: true, show_remaining_slots: true %>
