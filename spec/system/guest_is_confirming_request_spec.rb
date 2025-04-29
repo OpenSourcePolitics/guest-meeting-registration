@@ -7,14 +7,14 @@ describe "Guest user is confirming the account", type: :system do
   let(:manifest_name) { "meetings" }
   let!(:meeting) do
     create :meeting, :published,
-           component: component,
+           component:,
            enable_guest_registration: true,
            enable_cancellation: true,
            registrations_enabled: true,
            registration_form_enabled: false,
            available_slots: 20
   end
-  let!(:registration) { create(:guest_meeting_registration, organization: organization, meeting: meeting) }
+  let!(:registration) { create(:guest_meeting_registration, organization:, meeting:) }
 
   def meeting_path
     resource_locator(meeting).path
@@ -45,8 +45,8 @@ describe "Guest user is confirming the account", type: :system do
   end
 
   context "when user exists" do
-    let!(:user) { create(:user, organization: organization) }
-    let!(:registration) { create(:guest_meeting_registration, email: user.email, name: user.name, organization: organization, meeting: meeting) }
+    let!(:user) { create(:user, organization:) }
+    let!(:registration) { create(:guest_meeting_registration, email: user.email, name: user.name, organization:, meeting:) }
 
     it "assigns the request to existing user" do
       expect { visit confirmation_url(registration.confirmation_token) }.not_to change(Decidim::User, :count)
@@ -54,7 +54,7 @@ describe "Guest user is confirming the account", type: :system do
   end
 
   context "when form is invalid" do
-    let!(:registration) { create(:guest_meeting_registration, organization: organization, meeting: meeting, form_data: {}) }
+    let!(:registration) { create(:guest_meeting_registration, organization:, meeting:, form_data: {}) }
 
     it "displays the form" do
       visit confirmation_url(registration.confirmation_token)

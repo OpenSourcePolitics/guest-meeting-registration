@@ -14,8 +14,8 @@ end
 
 describe "Guest user is creating an account", type: :system do
   let(:organization) { create(:organization) }
-  let!(:terms_and_conditions_page) { Decidim::StaticPage.find_by(slug: "terms-and-conditions", organization: organization) }
-  let!(:registration) { create(:guest_meeting_registration, :with_user, organization: organization) }
+  let!(:terms_and_conditions_page) { Decidim::StaticPage.find_by(slug: "terms-and-conditions", organization:) }
+  let!(:registration) { create(:guest_meeting_registration, :with_user, organization:) }
 
   before do
     switch_to_host(organization.host)
@@ -24,7 +24,7 @@ describe "Guest user is creating an account", type: :system do
 
   context "when the user was previously participated to meetings" do
     it "has an account withe email" do
-      expect(Decidim::User).to be_exists(email: registration.email)
+      expect(Decidim::User).to exist(email: registration.email)
     end
 
     it "creates the account" do
@@ -118,10 +118,10 @@ describe "Guest user is creating an account", type: :system do
 
     before do
       # Add a content block to the home page to see if the user is there
-      create :content_block, organization: organization, scope_name: :homepage, manifest_name: :hero
+      create :content_block, organization:, scope_name: :homepage, manifest_name: :hero
 
       # Register
-      fill_registration_form(password: password)
+      fill_registration_form(password:)
       page.check("registration_user_tos_agreement")
       page.check("registration_user_newsletter")
       within "form.new_user" do

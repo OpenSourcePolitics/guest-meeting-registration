@@ -40,7 +40,7 @@ module Decidim
         if existing_request.exists?
           user = existing_request.where.not(user: nil).first.try(:user)
 
-          return user if user.present? && user.extended_data.with_indifferent_access.fetch(:attend_meetings, false)
+          user if user.present? && user.extended_data.with_indifferent_access.fetch(:attend_meetings, false)
         end
       end
     end

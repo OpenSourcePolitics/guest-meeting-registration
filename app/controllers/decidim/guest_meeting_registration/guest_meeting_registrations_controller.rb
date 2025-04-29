@@ -8,11 +8,11 @@ module Decidim
 
       def create
         @form = form_object.from_model(questionnaire)
-        render template: template
+        render template:
       end
 
       def answer
-        @form = form_object.from_params(params, session_token: session_token, meeting: meeting)
+        @form = form_object.from_params(params, session_token:, meeting:)
 
         Decidim::GuestMeetingRegistration::CreateMeetingRequest.call(meeting, @form) do
           on(:confirmation_required) do
@@ -27,12 +27,12 @@ module Decidim
 
           on(:invalid) do
             flash.now[:alert] = I18n.t("registrations.create.invalid", scope: "decidim.meetings")
-            render template: template
+            render template:
           end
 
           on(:invalid_form) do
             flash.now[:alert] = I18n.t("answer.invalid", scope: i18n_flashes_scope)
-            render template: template
+            render template:
           end
         end
       end

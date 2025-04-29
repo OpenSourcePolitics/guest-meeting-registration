@@ -21,10 +21,10 @@ module Decidim
       attr_reader :submitted_params
 
       def meeting_input
-        errors.add(:email, :taken) if Decidim::GuestMeetingRegistration::RegistrationRequest.where.not(id: id).exists?(
-          meeting: meeting,
+        errors.add(:email, :taken) if Decidim::GuestMeetingRegistration::RegistrationRequest.where.not(id:).exists?(
+          meeting:,
           organization: current_organization,
-          email: email
+          email:
         )
       end
 

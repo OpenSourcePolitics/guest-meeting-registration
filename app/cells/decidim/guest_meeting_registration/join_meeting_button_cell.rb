@@ -62,7 +62,7 @@ module Decidim
       end
 
       def cancellation_token
-        @cancellation_token ||= Decidim::GuestMeetingRegistration::RegistrationRequest.where(meeting: meeting, session_token: session_token).first.try(:cancellation_token)
+        @cancellation_token ||= Decidim::GuestMeetingRegistration::RegistrationRequest.where(meeting:, session_token:).first.try(:cancellation_token)
       end
     end
   end

@@ -32,10 +32,10 @@ describe "Show meeting", type: :system do
 
   before do
     meeting.update!(
-      registrations_enabled: registrations_enabled,
-      registration_form_enabled: registration_form_enabled,
-      available_slots: available_slots,
-      registration_terms: registration_terms
+      registrations_enabled:,
+      registration_form_enabled:,
+      available_slots:,
+      registration_terms:
     )
   end
 
@@ -215,7 +215,7 @@ describe "Show meeting", type: :system do
           end
 
           it "they can join the meeting if they are already following it" do
-            create(:follow, followable: meeting, user: user)
+            create(:follow, followable: meeting, user:)
 
             visit_meeting
 
@@ -239,7 +239,7 @@ describe "Show meeting", type: :system do
         end
 
         context "and they ARE part of a verified user group" do
-          let!(:user_group) { create :user_group, :verified, users: [user], organization: organization }
+          let!(:user_group) { create :user_group, :verified, users: [user], organization: }
 
           it "they can join the meeting representing a group and appear in the attending organizations list" do
             visit_meeting
@@ -341,8 +341,8 @@ describe "Show meeting", type: :system do
     end
 
     context "and the user is going to the meeting" do
-      let!(:answer) { create(:answer, questionnaire: questionnaire, question: question, user: user) }
-      let!(:registration) { create(:registration, meeting: meeting, user: user) }
+      let!(:answer) { create(:answer, questionnaire:, question:, user:) }
+      let!(:registration) { create(:registration, meeting:, user:) }
 
       before do
         login_as user, scope: :user

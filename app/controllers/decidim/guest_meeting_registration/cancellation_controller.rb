@@ -6,7 +6,7 @@ module Decidim
       def show
         @registration_request = Decidim::GuestMeetingRegistration::RegistrationRequest.where(
           organization: current_organization,
-          meeting: meeting,
+          meeting:,
           cancellation_token: params[:id]
         ).first
 

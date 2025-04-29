@@ -18,15 +18,15 @@ module Decidim
           if valid_questionnaire?
             questionnaire.answered_by?(current_user || session_token)
           else
-            Decidim::GuestMeetingRegistration::RegistrationRequest.exists?(meeting: meeting, session_token: session_token)
+            Decidim::GuestMeetingRegistration::RegistrationRequest.exists?(meeting:, session_token:)
           end
         end
 
         def tokenize(id, length: 10)
           tokenizer = if valid_questionnaire?
-                        Decidim::Tokenizer.new(salt: questionnaire.salt || questionnaire.id, length: length)
+                        Decidim::Tokenizer.new(salt: questionnaire.salt || questionnaire.id, length:)
                       else
-                        Decidim::Tokenizer.new(salt: meeting.id.to_s, length: length)
+                        Decidim::Tokenizer.new(salt: meeting.id.to_s, length:)
                       end
           tokenizer.int_digest(id).to_s
         end

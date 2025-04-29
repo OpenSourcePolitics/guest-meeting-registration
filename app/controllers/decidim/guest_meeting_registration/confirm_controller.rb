@@ -10,7 +10,7 @@ module Decidim
       def show
         @registration_request = Decidim::GuestMeetingRegistration::RegistrationRequest.where(
           organization: current_organization,
-          meeting: meeting,
+          meeting:,
           confirmation_token: params[:id]
         ).first
 
@@ -27,7 +27,7 @@ module Decidim
 
           on(:invalid_form) do
             flash[:alert] = I18n.t("answer.invalid", scope: "decidim.forms.questionnaires")
-            render template: template, assigns: { form: registration_form }
+            render template:, assigns: { form: registration_form }
           end
         end
       end
