@@ -41,3 +41,7 @@ de:
         title: Wie möchten Sie sich anmelden?
       menu:
         guest_meeting_registration_settings: Gastanmeldungseinstellungen
+      questionnaires:
+        simplified:
+          email: Ihre E-Mailadresse
+          name: Ihr Name

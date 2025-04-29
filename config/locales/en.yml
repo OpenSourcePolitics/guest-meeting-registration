@@ -59,6 +59,11 @@ en:
       menu:
         guest_meeting_registration_settings: Unregistered user meeting registration
           settings
+      questionnaires:
+        simplified:
+          email: Email
+          name: Name
+          tos_agreement: By participating you accept its Terms of Registration
     meetings:
       registrations:
         create:

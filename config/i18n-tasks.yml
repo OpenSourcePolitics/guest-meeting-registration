@@ -8,6 +8,7 @@ ignore_unused:
 
 ignore_missing:
   - decidim.meetings.meetings.show.join
+  - decidim.meetings.meetings.registration_confirm.*
   - decidim.meetings.meetings.show.no_slots_available
   - decidim.meetings.meetings.show.remaining_slots
   - decidim.admin.organization.update.*

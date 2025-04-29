@@ -41,3 +41,8 @@ fr:
         title: Veuillez choisir un mode d'inscription
       menu:
         guest_meeting_registration_settings: Paramètres des inscriptions des invités
+      questionnaires:
+        simplified:
+          email: Adresse email
+          name: Nom
+          tos_agreement: En participant, vous acceptez ces Conditions d'inscription
