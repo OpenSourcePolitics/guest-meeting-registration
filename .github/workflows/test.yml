@@ -1,6 +1,6 @@
 name: "[CI] Test"
 
-on: [push, pull_request]
+on: [push]
 
 env:
   NODE_VERSION: 18.17.1

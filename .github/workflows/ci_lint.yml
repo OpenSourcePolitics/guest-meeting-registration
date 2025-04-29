@@ -1,6 +1,6 @@
 name: "[CI] Lint"
 
-on: [push, pull_request]
+on: [push]
 
 env:
   RUBY_VERSION: 3.2.2
