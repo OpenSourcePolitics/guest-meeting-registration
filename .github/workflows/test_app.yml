@@ -7,11 +7,11 @@ on:
 
 jobs:
   test-report:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:15
         ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
