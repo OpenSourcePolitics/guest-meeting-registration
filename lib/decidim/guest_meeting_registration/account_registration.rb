@@ -10,10 +10,10 @@ module Decidim
           if user.present?
 
             user.assign_attributes(
+              email: form.email,
               name: form.name,
               nickname: form.nickname,
               password: form.password,
-              password_confirmation: form.password_confirmation,
               password_updated_at: Time.current,
               tos_agreement: form.tos_agreement,
               newsletter_notifications_at: form.newsletter_at,
