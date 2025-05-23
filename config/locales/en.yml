@@ -4,7 +4,7 @@ en:
     attributes:
       meeting:
         disable_account_confirmation: Don't ask users to choose between logging in
-          or proceeding as guests.
+          or proceeding as guests
         enable_cancellation: Allow users to cancel their registration
         enable_guest_registration: Allow unregistered users to join meetings
         enable_registration_confirmation: Ask users to confirm their registration

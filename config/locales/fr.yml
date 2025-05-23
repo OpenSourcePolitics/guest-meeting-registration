@@ -1,5 +1,12 @@
 ---
 fr:
+  activemodel:
+    attributes:
+      meeting:
+        disable_account_confirmation: Ne plus imposer aux utilisateurs de choisir entre connexion et mode invité pour s'inscrire à la rencontre
+        enable_cancellation: Permettre l'annulation de l'inscription
+        enable_guest_registration: Autoriser l'inscription sans compte utilisateur
+        enable_registration_confirmation: Demander une confirmation d'inscription par mail
   decidim:
     components:
       guest_meeting_registration:

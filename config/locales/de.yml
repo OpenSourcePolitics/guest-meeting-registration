@@ -1,5 +1,12 @@
 ---
 de:
+  activemodel:
+    attributes:
+      meeting:
+        disable_account_confirmation: Fordern Sie Nutzer nicht auf, sich zwischen der Anmeldung oder dem Fortfahren als Gast zu entscheiden
+        enable_cancellation: Benutzern erlauben, ihre Registrierung zu stornieren
+        enable_guest_registration: Nicht registrierten Benutzern die Teilnahme an Meetings erlauben
+        enable_registration_confirmation: Bitten Sie die Benutzer, ihre Registrierung zu bestätigen
   decidim:
     components:
       guest_meeting_registration:
