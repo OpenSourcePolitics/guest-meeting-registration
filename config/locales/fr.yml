@@ -37,14 +37,17 @@ fr:
           instruction: 'Vous pouvez confirmer votre adresse e-mail en cliquant sur le lien ci-dessous :'
           subject: Confirmez votre e-mail pour participer à %{meeting_title}
       join_meeting_button:
+
         cancel: Annuler
         cancel_guest_confirm:
           leave: Annuler votre inscription
           leave_confirmation: Êtes-vous sûr de vouloir annuler votre inscription à cette rencontre ?
         description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, vous pouvez <strong>%{login_as_guest}</strong>
         i_have_account: S'inscrire avec un compte Decidim
+        i_have_account_html: S'inscrire avec un <br />compte Decidim
         join: S'inscrire à la rencontre
         login_as_guest: S'inscrire en tant qu'invité
+        login_as_guest_html: S'inscrire en tant <br />qu'invité
         title: Veuillez choisir un mode d'inscription
       menu:
         guest_meeting_registration_settings: Paramètres des inscriptions des invités
