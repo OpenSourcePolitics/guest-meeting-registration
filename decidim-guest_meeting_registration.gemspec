@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["contact@alecslupu.ro"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/decidim/decidim-module-guest_meeting_registration"
-  s.required_ruby_version = "~> 3.0"
+  s.required_ruby_version = "~> 3.2"
 
   s.name = "decidim-guest_meeting_registration"
   s.summary = "A decidim guest_meeting_registration module"
@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
     end
   end
 
-  s.add_dependency "decidim-core", "~> 0.27"
-  s.add_dependency "decidim-meetings", "~> 0.27"
+  s.add_dependency "decidim-core", "~> 0.29"
+  s.add_dependency "decidim-meetings", "~> 0.29"
   s.add_dependency "deface", ">= 1.9"
   s.metadata["rubygems_mfa_required"] = "true"
 end

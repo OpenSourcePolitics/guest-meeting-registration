@@ -5,8 +5,8 @@ require "spec_helper"
 describe "Admin manages registration settings", type: :system do
   include_context "with a component"
   let(:manifest_name) { "meetings" }
-  let!(:meeting) { create :meeting, :published, component: component, enable_guest_registration: true, enable_cancellation: true }
-  let!(:registration) { create(:guest_meeting_registration, :with_user, organization: organization, meeting: meeting) }
+  let!(:meeting) { create :meeting, :published, component:, enable_guest_registration: true, enable_cancellation: true }
+  let!(:registration) { create(:guest_meeting_registration, :with_user, organization:, meeting:) }
 
   before do
     meeting.update!(
@@ -66,7 +66,7 @@ describe "Admin manages registration settings", type: :system do
   end
 
   it "raise error if token exists, but not belongs to correct meeting" do
-    registration = create(:guest_meeting_registration, organization: organization)
+    registration = create(:guest_meeting_registration, organization:)
     visit cancellation_url(registration.cancellation_token)
     expect(page).to have_content(I18n.t("cancellation.error", scope: "decidim.guest_meeting_registration"))
   end

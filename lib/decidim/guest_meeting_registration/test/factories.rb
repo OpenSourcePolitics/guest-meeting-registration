@@ -27,15 +27,15 @@ FactoryBot.define do
       create_follow { true }
     end
     organization
-    meeting { create(:meeting, component: create(:meeting_component, organization: organization)) }
+    meeting { create(:meeting, component: create(:meeting_component, organization:)) }
     email { generate(:email) }
     name { generate(:name) }
     cancellation_token { SecureRandom.hex }
     confirmation_token { SecureRandom.hex }
-    form_data { { name: name, email: email, tos_agreement: true } }
+    form_data { { name:, email:, tos_agreement: true } }
 
     trait :with_user do
-      user { create(:user, email: email, name: name, organization: organization, extended_data: { attend_meetings: true }) }
+      user { create(:user, email:, name:, organization:, extended_data: { attend_meetings: true }) }
     end
 
     trait :confirmed do

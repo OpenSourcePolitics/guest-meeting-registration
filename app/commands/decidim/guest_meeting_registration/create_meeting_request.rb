@@ -12,7 +12,7 @@ module Decidim
         return broadcast(:invalid_form) if registration_form.invalid?
         return broadcast(:invalid) if meeting.on_different_platform?
         return broadcast(:invalid) unless meeting.registrations_enabled? && meeting.has_available_slots?
-        return broadcast(:invalid) if Decidim::GuestMeetingRegistration::RegistrationRequest.exists?(meeting: meeting, organization: current_organization,
+        return broadcast(:invalid) if Decidim::GuestMeetingRegistration::RegistrationRequest.exists?(meeting:, organization: current_organization,
                                                                                                      email: registration_form.email)
 
         create_registration_request!

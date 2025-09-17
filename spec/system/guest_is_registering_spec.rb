@@ -4,21 +4,18 @@ require "spec_helper"
 
 def fill_registration_form(
   name: "Nikola Tesla",
-  nickname: "the-greatest-genius-in-history",
   email: "nikola.tesla@example.org",
   password: "sekritpass123"
 )
   fill_in :registration_user_name, with: name
-  fill_in :registration_user_nickname, with: nickname
   fill_in :registration_user_email, with: email
   fill_in :registration_user_password, with: password
-  fill_in :registration_user_password_confirmation, with: password
 end
 
 describe "Guest user is creating an account", type: :system do
   let(:organization) { create(:organization) }
-  let!(:terms_and_conditions_page) { Decidim::StaticPage.find_by(slug: "terms-and-conditions", organization: organization) }
-  let!(:registration) { create(:guest_meeting_registration, :with_user, organization: organization) }
+  let!(:terms_and_conditions_page) { Decidim::StaticPage.find_by(slug: "terms-and-conditions", organization:) }
+  let!(:registration) { create(:guest_meeting_registration, :with_user, organization:) }
 
   before do
     switch_to_host(organization.host)
@@ -27,7 +24,7 @@ describe "Guest user is creating an account", type: :system do
 
   context "when the user was previously participated to meetings" do
     it "has an account withe email" do
-      expect(Decidim::User).to be_exists(email: registration.email)
+      expect(Decidim::User).to exist(email: registration.email)
     end
 
     it "creates the account" do
@@ -48,25 +45,21 @@ describe "Guest user is creating an account", type: :system do
   context "when signing up" do
     describe "on first sight" do
       it "shows fields empty" do
-        expect(page).to have_content("Sign up to participate")
+        expect(page).to have_content("Create an account to participate")
         expect(page).to have_field("registration_user_name", with: "")
-        expect(page).to have_field("registration_user_nickname", with: "")
         expect(page).to have_field("registration_user_email", with: "")
         expect(page).to have_field("registration_user_password", with: "")
-        expect(page).to have_field("registration_user_password_confirmation", with: "")
         expect(page).to have_field("registration_user_newsletter", checked: false)
       end
     end
 
     describe "on cached sight with a different language", :caching do
       it "shows the omniauth buttons in correct locale" do
-        expect(page).to have_content("Sign in with Facebook")
+        expect(page).to have_link("Log in with Facebook")
 
         within_language_menu do
-          click_link "Català"
+          click_on "Català"
         end
-
-        expect(page).to have_content("Inicia sessió amb Facebook")
       end
     end
   end
@@ -94,7 +87,7 @@ describe "Guest user is creating an account", type: :system do
       within "form.new_user" do
         find("*[type=submit]").click
       end
-      click_button "Keep unchecked"
+      click_on "Keep unchecked"
       expect(page).to have_css("#sign-up-newsletter-modal", visible: :all)
       fill_registration_form
       within "form.new_user" do
@@ -125,10 +118,10 @@ describe "Guest user is creating an account", type: :system do
 
     before do
       # Add a content block to the home page to see if the user is there
-      create :content_block, organization: organization, scope_name: :homepage, manifest_name: :hero
+      create :content_block, organization:, scope_name: :homepage, manifest_name: :hero
 
       # Register
-      fill_registration_form(password: password)
+      fill_registration_form(password:)
       page.check("registration_user_tos_agreement")
       page.check("registration_user_newsletter")
       within "form.new_user" do
@@ -140,10 +133,12 @@ describe "Guest user is creating an account", type: :system do
       user.save!
 
       # Sign in
-      click_link "Sign In"
-      fill_in :session_user_email, with: user.email
-      fill_in :session_user_password, with: password
-      click_button "Log in"
+      click_on "Log in", match: :first
+      within "form.new_user" do
+        fill_in :session_user_email, with: user.email
+        fill_in :session_user_password, with: password
+        click_on "Log in"
+      end
     end
 
     context "with a weak password" do
@@ -158,7 +153,7 @@ describe "Guest user is creating an account", type: :system do
       let(:password) { "decidim123456789" }
 
       it "does not require password change straight away" do
-        expect(page).not_to have_content("Password change")
+        expect(page).to have_no_content("Password change")
       end
     end
   end

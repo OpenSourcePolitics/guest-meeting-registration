@@ -9,3 +9,10 @@ Decidim::Dev.dummy_app_path = File.expand_path(File.join(__dir__, "decidim_dummy
 require "decidim/dev/test/base_spec_helper"
 
 require "decidim/forms/test"
+
+RSpec.configure do |config|
+  config.before(:each, type: :system) do
+    # Make static map requests not to fail with HTTP 500 (causes JS error)
+    stub_request(:get, Regexp.new(Decidim.maps.fetch(:static).fetch(:url))).to_return(body: "")
+  end
+end

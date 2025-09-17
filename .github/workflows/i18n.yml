@@ -1,21 +1,17 @@
 name: "[CI] I18n test"
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push]
 
 env:
-  NODE_VERSION: 16.9.1
+  NODE_VERSION: 18.17.1
 
 jobs:
   test-report:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:15
         ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
@@ -28,10 +24,10 @@ jobs:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_HOST: localhost
-      RUBY_VERSION: 3.0.2
+      RUBY_VERSION: 3.2.2
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
@@ -49,7 +45,7 @@ jobs:
           SIMPLECOV: 0
           CODECOV: 0
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: screenshots

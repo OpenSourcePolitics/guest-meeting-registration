@@ -64,8 +64,8 @@ module Decidim
           current_component: component,
           current_user: registration_request.user,
           current_participatory_space: participatory_space,
-          session_token: session_token,
-          meeting: meeting
+          session_token:,
+          meeting:
         }
       end
 
@@ -75,7 +75,7 @@ module Decidim
 
         user.email = registration_form.email
         user.name = registration_form.name
-        user.nickname = UserBaseEntity.nicknamize(registration_form.name, organization: organization)
+        user.nickname = UserBaseEntity.nicknamize(registration_form.name, organization:)
         user.skip_confirmation!
         user.tos_agreement = "1"
         user.password = SecureRandom.hex
