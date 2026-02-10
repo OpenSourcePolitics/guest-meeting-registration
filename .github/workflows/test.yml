@@ -3,7 +3,7 @@ name: "[CI] Test"
 on: [push]
 
 env:
-  NODE_VERSION: 18.17.1
+  NODE_VERSION: 22.14.0
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
