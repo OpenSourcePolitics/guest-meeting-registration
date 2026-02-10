@@ -26,7 +26,7 @@ module Decidim
           end
 
           on(:invalid_form) do
-            flash[:alert] = I18n.t("answer.invalid", scope: "decidim.forms.questionnaires")
+            flash[:alert] = I18n.t("response.invalid", scope: "decidim.forms.questionnaires")
             render template:, assigns: { form: registration_form }
           end
         end

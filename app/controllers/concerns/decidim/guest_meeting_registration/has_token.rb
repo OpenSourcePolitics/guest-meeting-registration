@@ -7,16 +7,16 @@ module Decidim
 
       included do
         def questionnaire
-          @questionnaire ||= Decidim::Forms::Questionnaire.includes(questions: :answer_options).find_by(questionnaire_for: meeting)
+          @questionnaire ||= Decidim::Forms::Questionnaire.includes(questions: :response_options).find_by(questionnaire_for: meeting)
         end
 
         def valid_questionnaire?
           meeting.registration_form_enabled? && questionnaire.present?
         end
 
-        def visitor_already_answered?
+        def visitor_already_responded?
           if valid_questionnaire?
-            questionnaire.answered_by?(current_user || session_token)
+            questionnaire.responded_by?(current_user || session_token)
           else
             Decidim::GuestMeetingRegistration::RegistrationRequest.exists?(meeting:, session_token:)
           end
