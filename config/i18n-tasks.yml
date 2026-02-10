@@ -14,14 +14,14 @@ ignore_missing:
   - decidim.admin.organization.update.*
   - decidim.meetings.registrations.create.*
   - decidim.forms.questionnaires.show.questionnaire_not_published.*
-  - decidim.forms.questionnaires.show.questionnaire_answered.*
+  - decidim.forms.questionnaires.show.questionnaire_responded.*
   - decidim.forms.questionnaires.show.questionnaire_js_disabled.*
   - decidim.forms.questionnaires.show.questionnaire_for_private_users.*
-  - decidim.forms.questionnaires.show.answer_questionnaire.*
+  - decidim.forms.questionnaires.show.response_questionnaire.*
   - decidim.forms.questionnaires.show.questionnaire_closed.*
   - decidim.forms.questionnaires.show.tos_agreement
   - decidim.forms.questionnaires.show.current_step
   - decidim.forms.questionnaires.show.of_total_steps
-  - decidim.forms.questionnaires.answer.invalid
+  - decidim.forms.questionnaires.response.invalid
   - decidim.shared.flag_modal.close
   - decidim.shared.public_participation.public_participation
