@@ -2,7 +2,7 @@
 
 module Decidim
   module GuestMeetingRegistration
-    class AnswerQuestionnaire < Decidim::Forms::AnswerQuestionnaire
+    class AnswerQuestionnaire < Decidim::Forms::ResponseQuestionnaire
       # Initializes a AnswerQuestionnaire Command.
       #
       # form - The form from which to get the data.
