@@ -116,20 +116,20 @@ module Decidim::Meetings
 
         it "includes the response for each question" do
           expect(serialized[:registration_form_responses]).to include(
-                                                                "#{questions.first.position + 1}. #{translated(questions.first.body, locale: I18n.locale)}" => responses.first.body
-                                                              )
+            "#{questions.first.position + 1}. #{translated(questions.first.body, locale: I18n.locale)}" => responses.first.body
+          )
           expect(serialized[:registration_form_responses]).to include(
-                                                                "#{questions.last.position + 1}. #{translated(questions.last.body, locale: I18n.locale)}" => responses.last.body
-                                                              )
+            "#{questions.last.position + 1}. #{translated(questions.last.body, locale: I18n.locale)}" => responses.last.body
+          )
           expect(serialized[:registration_form_responses]).to include(
-                                                                "#{multichoice_question.position + 1}. #{translated(multichoice_question.body, locale: I18n.locale)}" => [multichoice_response_choices.first.body, multichoice_response_choices.last.body]
-                                                              )
+            "#{multichoice_question.position + 1}. #{translated(multichoice_question.body, locale: I18n.locale)}" => [multichoice_response_choices.first.body, multichoice_response_choices.last.body]
+          )
           expect(serialized[:registration_form_responses]).to include(
-                                                                "#{singlechoice_question.position + 1}. #{translated(singlechoice_question.body, locale: I18n.locale)}" => [singlechoice_response_choice.body]
-                                                              )
+            "#{singlechoice_question.position + 1}. #{translated(singlechoice_question.body, locale: I18n.locale)}" => [singlechoice_response_choice.body]
+          )
           expect(serialized[:registration_form_responses]).to include(
-                                                                "#{singlechoice_free_question.position + 1}. #{translated(singlechoice_free_question.body, locale: I18n.locale)}" => ["#{singlechoice_free_response_choice.body} (Free text response)"]
-                                                              )
+            "#{singlechoice_free_question.position + 1}. #{translated(singlechoice_free_question.body, locale: I18n.locale)}" => ["#{singlechoice_free_response_choice.body} (Free text response)"]
+          )
         end
       end
     end
