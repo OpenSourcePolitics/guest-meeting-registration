@@ -42,7 +42,7 @@ fr:
         cancel_guest_confirm:
           leave: Annuler votre inscription
           leave_confirmation: Êtes-vous sûr de vouloir annuler votre inscription à cette rencontre ?
-        description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, vous pouvez <strong>%{login_as_guest}</strong>
+        description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, sélectionnez <strong>%{login_as_guest}</strong>
         i_have_account: S'inscrire avec un compte Decidim
         i_have_account_html: S'inscrire avec un <br />compte Decidim
         join: S'inscrire à la rencontre
