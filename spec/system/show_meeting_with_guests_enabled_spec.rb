@@ -311,7 +311,7 @@ describe "Show meeting", type: :system do
     end
 
     context "and the user is going to the meeting" do
-      let!(:answer) { create(:answer, questionnaire:, question:, user:) }
+      let!(:response) { create(:response, questionnaire:, question:, user:) }
       let!(:registration) { create(:registration, meeting:, user:) }
 
       before do
