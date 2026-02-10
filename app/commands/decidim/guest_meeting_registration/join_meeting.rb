@@ -3,7 +3,7 @@
 module Decidim
   module GuestMeetingRegistration
     class JoinMeeting < Decidim::Meetings::JoinMeeting
-      delegate :current_user, to: :form
+      # delegate :current_user, to: :form
       # Initializes a JoinMeeting Command.
       #
       # meeting - The current instance of the meeting to be joined.
