@@ -174,8 +174,8 @@ describe "Show meeting", type: :system do
           visit_meeting
 
           click_on "Register"
-
-          within "#meeting-registration-confirm-#{meeting.id}" do
+          modal = all("div.meeting__registration-modal").last
+          within modal do
             expect(page).to have_content "A legal text"
             expect(page).to have_content "Show my attendance publicly"
             expect(page).to have_field("public_participation", checked: false)
@@ -199,8 +199,8 @@ describe "Show meeting", type: :system do
           visit_meeting
 
           click_on "Register"
-
-          within "#meeting-registration-confirm-#{meeting.id}" do
+          modal = all("div.meeting__registration-modal").last
+          within modal do
             expect(page).to have_content "Show my attendance publicly"
             expect(page).to have_field("public_participation", checked: false)
             page.find("input#public_participation").click
