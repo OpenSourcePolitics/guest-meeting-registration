@@ -3,7 +3,7 @@
                            description: translated_attribute(questionnaire.description),
                          }) %>
 
-<% columns = allow_answers? && visitor_can_respond? && @form.responses.map(&:question).any?(&:matrix?) ? 9 : 6 %>
+<% columns = allow_responses? && visitor_can_respond? && @form.responses.map(&:question).any?(&:matrix?) ? 9 : 6 %>
 
 <main class="layout-1col cols-6">
   <%= render partial: "decidim/shared/component_announcement" if current_component.manifest_name == "surveys" %>
@@ -30,7 +30,7 @@
             </div>
           <% end %>
 
-          <% if allow_answers? %>
+          <% if allow_responses? %>
             <% if visitor_can_respond? %>
               <% if visitor_already_responded? %>
                 <div class="section">

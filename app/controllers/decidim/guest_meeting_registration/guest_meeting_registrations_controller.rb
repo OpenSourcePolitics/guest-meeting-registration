@@ -59,7 +59,7 @@ module Decidim
         meeting.enable_guest_registration?
       end
 
-      def allow_answers?
+      def allow_responses?
         meeting.registrations_enabled? && meeting.registration_form_enabled? && meeting.has_available_slots?
       end
 
