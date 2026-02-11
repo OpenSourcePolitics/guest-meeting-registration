@@ -120,21 +120,37 @@ describe "Show meeting", type: :system do
         end
 
         context "and caching is enabled", :caching do
-          it "they have the option to sign in with different languages" do
+          it "they have the option to join as guest and to sign in with different languages" do
             visit_meeting
 
-            click_on "Register"
+            click_on "Join the meeting"
+
+            modal = all("div.meeting__registration-modal").last
+            within modal do
+              expect(page).to have_content("Register as guest")
+              expect(page).to have_content("Register with an account")
+              click_on "Register with an account"
+            end
 
             within "#loginModal" do
               expect(page).to have_content("Forgot your password?")
               find("[data-dialog-close='loginModal']", match: :first).click
             end
 
+            within modal do
+              find("[aria-label='Close modal']").click
+            end
+
             within_language_menu do
               click_on "Català"
             end
 
-            click_on "Inscriu-te"
+            click_on "Join the meeting"
+
+            modal = all("div.meeting__registration-modal").last
+            within modal do
+              click_on "Register with an account"
+            end
 
             within "#loginModal" do
               expect(page).to have_content("Has oblidat la teva contrasenya?")
