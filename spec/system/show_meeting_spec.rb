@@ -238,7 +238,7 @@ describe "Show meeting", type: :system do
           end
 
           expect(page).to have_css(".button", text: "Cancel your registration")
-          expect(page).to have_text("19 slots remaining")
+          expect(page).to have_text("Your registration and QR code")
           find("#dropdown-trigger-resource-#{meeting.id}").click
           expect(page).to have_text("Stop following")
         end
