@@ -70,14 +70,21 @@ describe "Show meeting", type: :system do
   context "when meeting registrations are enabled" do
     context "and the meeting has not a slot available" do
       let(:available_slots) { 1 }
+      let(:user_two) { create :user, :confirmed, organization: }
 
       before do
         create(:registration, meeting:, user:)
       end
 
-      it "shows the waitlist button" do
+      it "can't join waiting list as guest" do
         visit_meeting
+        expect(page).to have_text("No slots available")
+        expect(page).to have_text("0 slots remaining")
+      end
 
+      it "can join waiting list as logged in user" do
+        login_as user_two, scope: :user
+        visit_meeting
         expect(page).to have_text("Join waitlist")
         expect(page).to have_text("0 slots remaining")
       end
@@ -107,9 +114,9 @@ describe "Show meeting", type: :system do
         it "they have the option to sign in" do
           visit_meeting
 
-          click_on "Register"
+          click_on "Join the meeting"
 
-          expect(page).to have_css("#loginModal", visible: :visible)
+          expect(page).to have_css(".meeting__registration-modal", visible: :visible)
         end
 
         context "and caching is enabled", :caching do
