@@ -11,6 +11,10 @@ fr:
     components:
       guest_meeting_registration:
         name: InscriptionAuxRencontresSansCompte
+    forms:
+      questionnaires:
+        answers:
+          invalid:
     guest_meeting_registration:
       admin:
         guest_meeting_session:
@@ -56,3 +60,7 @@ fr:
           email: Adresse email
           name: Nom
           tos_agreement: En participant, vous acceptez ces conditions d'inscription
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Finalisez votre inscription – consultez votre courriel pour  confirmer votre participation et réserver votre place

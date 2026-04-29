@@ -53,3 +53,7 @@ de:
           email: Ihre E-Mailadresse
           name: Ihr Name
           tos_agreement: Mit Ihrer Teilnahme akzeptieren Sie die Anmeldebedingungen
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Schließen Sie Ihre Registrierung ab – überprüfen Sie Ihre E-Mails, um Ihre Teilnahme zu bestätigen und Ihren Platz zu reservieren.
