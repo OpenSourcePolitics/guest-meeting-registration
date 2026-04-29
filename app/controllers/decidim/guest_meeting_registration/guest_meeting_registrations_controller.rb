@@ -31,7 +31,7 @@ module Decidim
           end
 
           on(:invalid_form) do
-            flash.now[:alert] = I18n.t("answer.invalid", scope: i18n_flashes_scope)
+            flash.now[:alert] = I18n.t("response.invalid", scope: i18n_flashes_scope)
             render template:
           end
         end
