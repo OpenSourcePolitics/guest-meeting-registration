@@ -42,18 +42,6 @@ jobs:
           sudo dpkg -i /tmp/chrome.deb
           rm /tmp/chrome.deb
       - uses: nanasess/setup-chromedriver@v2
-        with:
-          chromedriver-version: 136.0.7103.92
-
-      - name: List Chrome
-        run: apt list --installed | grep chrome
-
-      - name: Remove Chrome
-        run: sudo apt remove google-chrome-stable
-
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 136.0.7103.92
 
       - name: Setup Database
         run: bundle exec rake test_app
