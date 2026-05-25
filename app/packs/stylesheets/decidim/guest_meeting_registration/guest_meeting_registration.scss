@@ -1,1 +1,6 @@
 /* css for decidim_guest_meeting_registration */
+
+.response-questionnaire__step-counter {
+  background-color: rgb(var(--tertiary-rgb) / var(--tw-bg-opacity, 1));
+  width: fit-content;
+}

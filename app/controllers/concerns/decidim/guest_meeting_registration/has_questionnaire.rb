@@ -9,7 +9,7 @@ module Decidim
         include FormFactory
         include Decidim::GuestMeetingRegistration::HasToken
 
-        helper_method :visitor_already_answered?, :meeting, :update_url, :form_path
+        helper_method :visitor_already_responded?, :meeting, :update_url, :form_path
         invisible_captcha on_spam: :spam_detected
 
         def form_path

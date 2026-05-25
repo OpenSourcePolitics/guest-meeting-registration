@@ -11,6 +11,10 @@ fr:
     components:
       guest_meeting_registration:
         name: InscriptionAuxRencontresSansCompte
+    forms:
+      questionnaires:
+        response:
+          invalid: Un problème est survenu lors du remplissage du formulaire.
     guest_meeting_registration:
       admin:
         guest_meeting_session:
@@ -37,12 +41,13 @@ fr:
           instruction: 'Vous pouvez confirmer votre adresse e-mail en cliquant sur le lien ci-dessous :'
           subject: Confirmez votre e-mail pour participer à %{meeting_title}
       join_meeting_button:
-
         cancel: Annuler
         cancel_guest_confirm:
           leave: Annuler votre inscription
           leave_confirmation: Êtes-vous sûr de vouloir annuler votre inscription à cette rencontre ?
-        description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, vous pouvez <strong>%{login_as_guest}</strong>
+          leave_html: Annuler l'inscription
+          leave_title: Annuler votre inscription
+        description_html: Si vous avez déjà un compte, choisissez l'option <strong>%{i_have_account}</strong> . Sinon, sélectionnez <strong>%{login_as_guest}</strong>
         i_have_account: S'inscrire avec un compte Decidim
         i_have_account_html: S'inscrire avec un <br />compte Decidim
         join: S'inscrire à la rencontre
@@ -56,3 +61,7 @@ fr:
           email: Adresse email
           name: Nom
           tos_agreement: En participant, vous acceptez ces conditions d'inscription
+    meetings:
+      registrations:
+        create:
+          confirmation_required: Finalisez votre inscription – consultez votre courriel pour  confirmer votre participation et réserver votre place

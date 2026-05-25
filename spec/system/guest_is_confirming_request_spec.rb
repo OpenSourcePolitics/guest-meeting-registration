@@ -12,7 +12,10 @@ describe "Guest user is confirming the account", type: :system do
            enable_cancellation: true,
            registrations_enabled: true,
            registration_form_enabled: false,
-           available_slots: 20
+           available_slots: 20,
+           address: nil,
+           latitude: nil,
+           longitude: nil
   end
   let!(:registration) { create(:guest_meeting_registration, organization:, meeting:) }
 
@@ -58,7 +61,7 @@ describe "Guest user is confirming the account", type: :system do
 
     it "displays the form" do
       visit confirmation_url(registration.confirmation_token)
-      expect(page).to have_content(I18n.t("answer.invalid", scope: "decidim.forms.questionnaires"))
+      expect(page).to have_content(I18n.t("response.invalid", scope: "decidim.forms.questionnaires"))
     end
   end
 

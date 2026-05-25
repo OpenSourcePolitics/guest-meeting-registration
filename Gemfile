@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", "~> 0.29"
+gem "decidim", "~> 0.31.0"
 gem "decidim-guest_meeting_registration", path: "."
 
 gem "bootsnap", "~> 1.4"
@@ -13,9 +13,9 @@ gem "puma", ">= 6.3.1"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
 
-  gem "faker"
+  gem "faker", "~> 3.6.0"
 
-  gem "decidim-dev", "~> 0.29"
+  gem "decidim-dev", "~> 0.31.0"
 
   gem "rubocop-performance"
   gem "simplecov", require: false

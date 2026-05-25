@@ -7,9 +7,8 @@ describe "Show meeting", type: :system do
   let(:manifest_name) { "meetings" }
   let!(:questionnaire) { create(:questionnaire) }
   let!(:question) { create(:questionnaire_question, questionnaire:, position: 0) }
-  let!(:meeting) { create :meeting, :published, component:, questionnaire:, enable_guest_registration: state }
+  let!(:meeting) { create :meeting, :published, component:, questionnaire:, enable_guest_registration: true }
   let!(:user) { create :user, :confirmed, organization: }
-  let(:state) { true }
 
   let(:registrations_enabled) { true }
   let(:registration_form_enabled) { false }
@@ -30,7 +29,10 @@ describe "Show meeting", type: :system do
     Decidim::EngineRouter.main_proxy(component).join_meeting_registration_path(meeting_id: meeting.id)
   end
 
+  def see_questionnaire_questions; end
+
   before do
+    stub_geocoding_coordinates([meeting.latitude, meeting.longitude])
     meeting.update!(
       registrations_enabled:,
       registration_form_enabled:,
@@ -47,16 +49,12 @@ describe "Show meeting", type: :system do
 
       expect(page).not_to have_button("Register")
       expect(page).not_to have_text("20 slots remaining")
-      # within ".card.extra" do
-      #  expect(page).not_to have_button("JOIN THE MEETING")
-      #  expect(page).not_to have_text("20 slots remaining")
-      # end
     end
 
     context "and registration form is also enabled" do
       let(:registration_form_enabled) { true }
 
-      it "can't answer the registration form" do
+      it "cannot response the registration form" do
         visit questionnaire_public_path
 
         expect(page).to have_i18n_content(questionnaire.title)
@@ -64,7 +62,7 @@ describe "Show meeting", type: :system do
 
         expect(page).to have_no_i18n_content(question.body)
 
-        expect(page).to have_content("The form is closed and cannot be answered")
+        expect(page).to have_content("The form is closed and cannot be responded")
       end
     end
   end
@@ -72,21 +70,23 @@ describe "Show meeting", type: :system do
   context "when meeting registrations are enabled" do
     context "and the meeting has not a slot available" do
       let(:available_slots) { 1 }
+      let(:user_two) { create :user, :confirmed, organization: }
 
       before do
         create(:registration, meeting:, user:)
       end
 
-      it "the registration button is disabled" do
+      it "can't join waiting list as guest" do
         visit_meeting
-
-        expect(page).to have_css("button[disabled]", text: "No slots available")
+        expect(page).to have_text("No slots available")
         expect(page).to have_text("0 slots remaining")
+      end
 
-        # within ".card.extra" do
-        #  expect(page).to have_css("button[disabled]", text: "NO SLOTS AVAILABLE")
-        #  expect(page).to have_text("0 slots remaining")
-        # end
+      it "can join waiting list as logged in user" do
+        login_as user_two, scope: :user
+        visit_meeting
+        expect(page).to have_text("Join waitlist")
+        expect(page).to have_text("0 slots remaining")
       end
 
       context "and registration form is enabled" do
@@ -96,7 +96,7 @@ describe "Show meeting", type: :system do
           login_as user, scope: :user
         end
 
-        it "can't answer the registration form" do
+        it "can't response the registration form" do
           visit questionnaire_public_path
 
           expect(page).to have_i18n_content(questionnaire.title)
@@ -104,7 +104,7 @@ describe "Show meeting", type: :system do
 
           expect(page).to have_no_i18n_content(question.body)
 
-          expect(page).to have_content("The form is closed and cannot be answered")
+          expect(page).to have_content("The form is closed and cannot be responded")
         end
       end
     end
@@ -115,13 +115,47 @@ describe "Show meeting", type: :system do
           visit_meeting
 
           click_on "Join the meeting"
-          # within ".card.extra" do
-          #  click_button "Join the meeting"
-          # end
 
-          click_button I18n.t("decidim.guest_meeting_registration.join_meeting_button.i_have_account")
+          expect(page).to have_css(".meeting__registration-modal", visible: :visible)
+        end
 
-          expect(page).to have_css("#loginModal", visible: :visible)
+        context "and caching is enabled", :caching do
+          it "they have the option to join as guest and to sign in with different languages" do
+            visit_meeting
+
+            click_on "Join the meeting"
+
+            modal = all("div.meeting__registration-modal").last
+            within modal do
+              expect(page).to have_content("Register as guest")
+              expect(page).to have_content("Register with an account")
+              click_on "Register with an account"
+            end
+
+            within "#loginModal" do
+              expect(page).to have_content("Forgot your password?")
+              find("[data-dialog-close='loginModal']", match: :first).click
+            end
+
+            within modal do
+              find("[aria-label='Close modal']").click
+            end
+
+            within_language_menu do
+              click_on "Català"
+            end
+
+            click_on "Join the meeting"
+
+            modal = all("div.meeting__registration-modal").last
+            within modal do
+              click_on "Register with an account"
+            end
+
+            within "#loginModal" do
+              expect(page).to have_content("Has oblidat la teva contrasenya?")
+            end
+          end
         end
 
         context "and registration form is enabled" do
@@ -133,7 +167,7 @@ describe "Show meeting", type: :system do
             expect(page).to have_i18n_content(questionnaire.title)
             expect(page).to have_i18n_content(questionnaire.description, strip_tags: true)
 
-            expect(page).not_to have_css(".form.answer-questionnaire")
+            expect(page).not_to have_css(".form.response-questionnaire")
 
             within "[data-question-readonly]" do
               expect(page).to have_i18n_content(question.body)
@@ -147,115 +181,98 @@ describe "Show meeting", type: :system do
           login_as user, scope: :user
         end
 
-        context "and they ARE NOT part of a verified user group" do
-          it "they can join the meeting and automatically follow it" do
-            visit_meeting
-
-            click_on "Register"
-
-            within "#meeting-registration-confirm-#{meeting.id}" do
-              expect(page).to have_content "A legal text"
-              expect(page).to have_content "Show my attendance publicly"
-              expect(page).to have_field("public_participation", checked: false)
-              click_on "Confirm"
-            end
-
-            within_flash_messages do
-              expect(page).to have_content("successfully")
-            end
-
-            expect(page).to have_css(".button", text: "Cancel your registration")
-            expect(page).to have_text("19 slots remaining")
-            expect(page).to have_text("Stop following")
-            expect(page).to have_no_text("Participants")
-            expect(page).to have_no_css("#panel-participants")
+        context "and the meeting is happening now" do
+          before do
+            meeting.update!(start_time: 1.hour.ago, end_time: 1.hour.from_now)
           end
 
-          it "they can join the meeting and configure their participation to be shown publicly" do
+          it "does not show the registration button" do
             visit_meeting
 
-            click_on "Register"
-
-            within "#meeting-registration-confirm-#{meeting.id}" do
-              expect(page).to have_content "Show my attendance publicly"
-              expect(page).to have_field("public_participation", checked: false)
-              page.find("input#public_participation").click
-              click_on "Confirm"
-            end
-
-            expect(page).to have_content("successfully")
-
-            expect(page).to have_text("19 slots remaining")
-            expect(page).to have_text("Stop following")
-            expect(page).to have_text("Participants")
-            within "#panel-participants" do
-              expect(page).to have_text(user.name)
-            end
-          end
-
-          it "they can join the meeting if they are already following it" do
-            create(:follow, followable: meeting, user:)
-
-            visit_meeting
-
-            click_on "Register"
-
-            within "#meeting-registration-confirm-#{meeting.id}" do
-              expect(page).to have_content "A legal text"
-              expect(page).to have_content "Show my attendance publicly"
-              expect(page).to have_field("public_participation", checked: false)
-              click_on "Confirm"
-            end
-
-            within_flash_messages do
-              expect(page).to have_content("successfully")
-            end
-
-            expect(page).to have_css(".button", text: "Cancel your registration")
-            expect(page).to have_text("19 slots remaining")
-            expect(page).to have_text("Stop following")
+            expect(page).to have_no_css(".button", text: "Register")
           end
         end
 
-        context "and they ARE part of a verified user group" do
-          let!(:user_group) { create(:user_group, :verified, users: [user], organization:) }
+        it "they can join the meeting and automatically follow it" do
+          visit_meeting
 
-          it "they can join the meeting representing a group and appear in the attending organizations list" do
-            visit_meeting
+          click_on "Register"
 
-            click_on "Register"
-
-            within "#meeting-registration-confirm-#{meeting.id}" do
-              expect(page).to have_content "I represent a group"
-              expect(page).to have_content "Show my attendance publicly"
-              expect(page).to have_field("public_participation", checked: false)
-              page.find("input#public_participation").click
-              page.find("input#user_group").click
-              select user_group.name, from: :join_meeting_user_group_id
-              page.find("input#public_participation").click
-              click_on "Confirm"
-            end
-
-            within_flash_messages do
-              expect(page).to have_content("successfully")
-            end
-
-            expect(page).to have_css(".button", text: "Cancel your registration")
-            expect(page).to have_text("19 slots remaining")
-
-            expect(page).to have_text("Organization")
-            expect(page).to have_text(user_group.name)
-            expect(page).to have_no_text("Participants")
-            expect(page).to have_css("#panel-organizations")
-            expect(page).to have_no_css("#panel-participants")
+          modal = all("div.meeting__registration-modal").last
+          within modal do
+            expect(page).to have_content "A legal text"
+            expect(page).to have_content "Show my attendance publicly"
+            expect(page).to have_field("public_participation", checked: false)
+            click_on "Confirm"
           end
+
+          within_flash_messages do
+            expect(page).to have_content("successfully")
+          end
+
+          expect(page).to have_css(".button", text: "Cancel your registration")
+          expect(page).to have_no_text("19 slots remaining")
+          find("#dropdown-trigger-resource-#{meeting.id}").click
+
+          expect(page).to have_text("Stop following")
+          expect(page).to have_no_text("Participants")
+          expect(page).to have_no_css("#panel-participants")
+        end
+
+        it "they can join the meeting and configure their participation to be shown publicly" do
+          visit_meeting
+
+          click_on "Register"
+
+          modal = all("div.meeting__registration-modal").last
+          within modal do
+            expect(page).to have_content "Show my attendance publicly"
+            expect(page).to have_field("public_participation", checked: false)
+            page.find("input#public_participation").click
+            click_on "Confirm"
+          end
+
+          expect(page).to have_content("successfully")
+
+          expect(page).to have_no_text("19 slots remaining")
+          find("#dropdown-trigger-resource-#{meeting.id}").click
+          expect(page).to have_text("Stop following")
+          expect(page).to have_text("Participants")
+          within "#panel-participants" do
+            expect(page).to have_text(user.name)
+          end
+        end
+
+        it "they can join the meeting if they are already following it" do
+          create(:follow, followable: meeting, user:)
+
+          visit_meeting
+
+          click_on "Register"
+
+          modal = all("div.meeting__registration-modal").last
+          within modal do
+            expect(page).to have_content "A legal text"
+            expect(page).to have_content "Show my attendance publicly"
+            expect(page).to have_field("public_participation", checked: false)
+            click_on "Confirm"
+          end
+
+          within_flash_messages do
+            expect(page).to have_content("successfully")
+          end
+
+          expect(page).to have_css(".button", text: "Cancel your registration")
+          expect(page).to have_no_text("19 slots remaining")
+          find("#dropdown-trigger-resource-#{meeting.id}").click
+          expect(page).to have_text("Stop following")
         end
       end
     end
 
     context "and has a registration form" do
       let(:registration_form_enabled) { true }
-      let(:callout_failure) { "There was a problem answering the form" }
+      let(:callout_failure) { "There was a problem responding the form" }
       let(:callout_success) { <<~EOCONTENT.strip.gsub("\n", " ") }
         You have joined the meeting successfully.
         Because you have registered for this meeting, you will be notified if there are updates on it.
@@ -320,7 +337,7 @@ describe "Show meeting", type: :system do
     end
 
     context "and the user is going to the meeting" do
-      let!(:answer) { create(:answer, questionnaire:, question:, user:) }
+      let!(:response) { create(:response, questionnaire:, question:, user:) }
       let!(:registration) { create(:registration, meeting:, user:) }
 
       before do
@@ -358,11 +375,10 @@ describe "Show meeting", type: :system do
           component.update!(settings: { registration_code_enabled: true })
         end
 
-        it "shows the registration code" do
+        it "allows user to see the registration code" do
           visit_meeting
 
-          # expect(page).to have_css(".registration_code")
-          expect(page).to have_content("Your registration code")
+          click_on("Your registration and QR code")
           expect(page).to have_content(registration.code)
         end
       end
@@ -377,67 +393,14 @@ describe "Show meeting", type: :system do
 
           expect(page).to have_no_css(".registration_code")
           expect(page).to have_no_content(registration.code)
-        end
-      end
-
-      context "when showing the registration code validation state with registration code enabled" do
-        before do
-          component.update!(settings: { registration_code_enabled: true })
-        end
-
-        it "shows validation pending if not validated" do
-          visit_meeting
-
-          expect(registration.validated_at).to be_nil
-          expect(page).to have_content("VALIDATION PENDING")
-        end
-      end
-
-      context "when not showing the registration code validation state with registration code disabled" do
-        before do
-          component.update!(settings: { registration_code_enabled: false })
-        end
-
-        it "shows validation pending if not validated" do
-          visit_meeting
-
-          expect(registration.validated_at).to be_nil
-          expect(page).to have_no_content("VALIDATION PENDING")
-        end
-      end
-
-      context "when showing the registration code validated for registration code enabled" do
-        before do
-          component.update!(settings: { registration_code_enabled: true })
-        end
-
-        it "shows validated if validated" do
-          registration.update validated_at: Time.current
-          visit_meeting
-
-          expect(registration.validated_at).not_to be_nil
-          expect(page).to have_content("VALIDATED")
-        end
-      end
-
-      context "when not showing the registration code validated for registration code disabled" do
-        before do
-          component.update!(settings: { registration_code_enabled: false })
-        end
-
-        it "shows validated if validated" do
-          registration.update validated_at: Time.current
-          visit_meeting
-
-          expect(registration.validated_at).not_to be_nil
-          expect(page).to have_no_content("VALIDATED")
+          expect(page).to have_no_content("Your registration and QR code")
         end
       end
 
       context "and registration form is enabled" do
         let(:registration_form_enabled) { true }
 
-        it "can't answer the registration again" do
+        it "cannot response the registration again" do
           visit questionnaire_public_path
 
           expect(page).to have_i18n_content(questionnaire.title)
@@ -445,9 +408,11 @@ describe "Show meeting", type: :system do
 
           expect(page).to have_no_i18n_content(question.body)
 
-          expect(page).to have_content("You have already answered this form.")
+          expect(page).to have_content("You have already responded this form.")
         end
       end
     end
   end
+
+  def see_questionnaire_questions; end
 end

@@ -15,15 +15,15 @@
       <div class="card">
         <div class="card__content">
           <% if meeting.registrations_enabled? && meeting.has_available_slots? %>
-              <% if  visitor_already_answered? %>
+              <% if  visitor_already_responded? %>
                 <div class="section">
                   <div class="callout success">
-                    <h3 class="heading5"><%= t("questionnaire_answered.title", scope: "decidim.forms.questionnaires.show") %></h3>
-                    <p><%= t("questionnaire_answered.body", scope: "decidim.forms.questionnaires.show") %></p>
+                    <h3 class="heading5"><%= t("questionnaire_responded.title", scope: "decidim.forms.questionnaires.show") %></h3>
+                    <p><%= t("questionnaire_responded.body", scope: "decidim.forms.questionnaires.show") %></p>
                   </div>
                 </div>
               <% else %>
-                <div class="answer-questionnaire">
+                <div class="response-questionnaire">
                   <noscript>
                     <div class="section">
                       <div class="callout warning">
@@ -41,7 +41,7 @@
                     </div>
                   <% end %>
 
-                  <%= decidim_form_for(@form, url: update_url, method: :post, html: { multipart: true, class: "form answer-questionnaire" }, data: { "safe-path" => form_path }) do |form| %>
+                  <%= decidim_form_for(@form, url: update_url, method: :post, html: { multipart: true, class: "form response-questionnaire" }, data: { "safe-path" => form_path }) do |form| %>
                     <%= form_required_explanation %>
                     <%= invisible_captcha %>
                     <div class="form__wrapper">

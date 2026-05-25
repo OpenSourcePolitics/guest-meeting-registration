@@ -3,7 +3,7 @@
 module Decidim
   module GuestMeetingRegistration
     class JoinMeeting < Decidim::Meetings::JoinMeeting
-      delegate :current_user, to: :form
+      # delegate :current_user, to: :form
       # Initializes a JoinMeeting Command.
       #
       # meeting - The current instance of the meeting to be joined.
@@ -31,10 +31,10 @@ module Decidim
         meeting.registration_form_enabled? && @form.model_name == "questionnaire"
       end
 
-      def answer_questionnaire
+      def response_questionnaire
         return unless questionnaire?
 
-        Decidim::GuestMeetingRegistration::AnswerQuestionnaire.call(form, meeting.questionnaire, current_user) do
+        Decidim::GuestMeetingRegistration::ResponseQuestionnaire.call(form, meeting.questionnaire, current_user) do
           on(:ok) do
             return :valid
           end
